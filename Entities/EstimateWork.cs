@@ -1,4 +1,4 @@
-﻿namespace EstimateResolve
+﻿namespace EstimateResolve.Entities
 {
     /// <summary>
     /// Представляет класс строки работы табличной части сметы.
