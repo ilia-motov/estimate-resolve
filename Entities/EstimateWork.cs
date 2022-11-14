@@ -16,9 +16,19 @@
         public int EstimateId { get; set; }
 
         /// <summary>
+        /// Получает или устанавливает смету.
+        /// </summary>
+        public Estimate Estimate { get; set; }
+
+        /// <summary>
         /// Получает или устанавливает идентификатор услуги компании.
         /// </summary>
-        public int CompanyServicesId { get; set; }
+        public int CompanyServiceId { get; set; }
+
+        /// <summary>
+        /// Получает или устанавливает услугу компании.
+        /// </summary>
+        public CompanyService CompanyService { get; set; }
 
         /// <summary>
         /// Получает или устанавливает объем работ.
@@ -40,5 +50,9 @@
         /// </summary>
         public decimal Amount { get; set; }
 
+        /// <summary>
+        /// Получает или устанавливает список материалов в работу.
+        /// </summary>
+        public List<EstimateMaterial> EstimateMaterials { get; set; }
     }
 }
