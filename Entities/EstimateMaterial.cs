@@ -1,4 +1,4 @@
-﻿namespace EstimateResolve
+﻿namespace EstimateResolve.Entities
 {
     /// <summary>
     /// Представляет класс строки материала табличной части сметы.
@@ -16,14 +16,29 @@
         public int EstimateId { get; set; }
 
         /// <summary>
+        /// Получает или устанавливает смету.
+        /// </summary>
+        public Estimate Estimate { get; set; }
+
+        /// <summary>
         /// Получает или устанавливает идентификатор работы.
         /// </summary>
-        public int WorkingId { get; set; }
+        public int EstimateWorkId { get; set; }
+
+        /// <summary>
+        /// Получает или устанавливает работу.
+        /// </summary>
+        public EstimateWork EstimateWork { get; set; }
 
         /// <summary>
         /// Получает или устанавливает идентификатор материала.
         /// </summary>
         public int MaterialId { get; set; }
+
+        /// <summary>
+        /// Получает или устанавливает материал.
+        /// </summary>
+        public Material Material { get; set; }
 
         /// <summary>
         /// Получает или устанавливает расход материала на единицу объема.
@@ -51,7 +66,6 @@
         /// Получает или устанавливает стоимость материала.
         /// </summary>
         public decimal Amount { get; set; }
-
 
     }
 }

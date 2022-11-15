@@ -14,5 +14,20 @@
         /// Получает или устанавливает имя заказчика.
         /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// Получает или устанавливает список договоров.
+        /// </summary>
+        public List<Contract> Contracts { get; set; }
+
+        /// <summary>
+        /// Получает или устанавливает список объектов.
+        /// </summary>
+        public List<ConstructionObject> ConstructionObjects { get; set; }
+
+        /// <summary>
+        /// Получает или устанавливает список смет.
+        /// </summary>
+        public List<Estimate> Estimates { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace EstimateResolve
+﻿namespace EstimateResolve.Entities
 {
     /// <summary>
     /// Представляет класс материала
@@ -25,5 +25,9 @@
         /// </summary>
         public decimal Price { get; set; }
 
+        /// <summary>
+        /// Получает или устанавливает список материалов в работу.
+        /// </summary>
+        public List<EstimateMaterial> EstimateMaterials { get; set; }
     }
 }

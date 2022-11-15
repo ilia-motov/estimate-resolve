@@ -1,4 +1,4 @@
-﻿namespace EstimateResolve
+﻿namespace EstimateResolve.Entities
 {
     /// <summary>
     /// Представляет класс услуги компании.
@@ -16,14 +16,24 @@
         public string Name { get; set; }
 
         /// <summary>
-        /// Получает или устанавливает идентификатор единиц измерения.
+        /// Получает или устанавливает идентификатор единицы измерения.
         /// </summary>
         public int UnitOfMeasurementId { get; set; }
+
+        /// <summary>
+        /// Получает или устанавливает единицу измерения.
+        /// </summary>
+        public UnitOfMeasurement UnitOfMeasurement { get; set; }
 
         /// <summary>
         /// Получает или устанавливает цену за услугу.
         /// </summary>
         public decimal Price { get; set; }
-        
+
+        /// <summary>
+        /// Получает или устанавливает список работ.
+        /// </summary>
+        public List<EstimateWork> EstimateWorks { get; set; }
+
     }
 }
