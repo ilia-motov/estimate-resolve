@@ -10,6 +10,7 @@ namespace EstimateResolve.DataAccess.EntityTypeConfigurations
         {
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Name).IsRequired();
+            builder.Property(x => x.Price).HasPrecision(15, 2);
 
             builder
                 .HasMany(x => x.EstimateMaterials)

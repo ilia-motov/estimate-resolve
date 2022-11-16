@@ -12,7 +12,11 @@ namespace EstimateResolve.DataAccess.EntityTypeConfigurations
             builder.Property(x => x.EstimateId).IsRequired();
             builder.Property(x => x.EstimateWorkId).IsRequired();
             builder.Property(x => x.MaterialId).IsRequired();
-            builder.Property(x => x.ValueWorking).IsRequired();
+            builder.Property(x => x.Consumption).HasPrecision(15, 2).IsRequired();
+            builder.Property(x => x.ValueWorking).HasPrecision(15, 2).IsRequired();
+            builder.Property(x => x.Quantity).HasPrecision(15, 3).IsRequired();
+            builder.Property(x => x.Price).HasPrecision(15, 2);
+            builder.Property(x => x.Amount).HasPrecision(15, 2);
 
             builder
                 .HasOne(x => x.Estimate)
