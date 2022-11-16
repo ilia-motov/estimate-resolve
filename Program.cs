@@ -1,9 +1,11 @@
 ﻿using EstimateResolve.DataAccess;
 
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
 using (var context = new EstimateResolveDbContext())
 {
-    context.Database.EnsureCreated();
-    context.SaveChanges();
+    var dataSeedingService = new DataSeedingService(context);
+    dataSeedingService.SeedDatabase();
 }
 
 /*var repository = new UnitOfMeasurementRepository();

@@ -5,8 +5,7 @@ namespace EstimateResolve.DataAccess
 {
     public class EstimateResolveDbContext : DbContext
     {
-
-        public DbSet<Client> Client { get; set; }
+        public DbSet<Client> Clients { get; set; }
 
         public DbSet<CompanyService> CompanyServices { get; set; }
 

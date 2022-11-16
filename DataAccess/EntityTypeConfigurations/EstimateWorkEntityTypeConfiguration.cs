@@ -11,7 +11,9 @@ namespace EstimateResolve.DataAccess.EntityTypeConfigurations
             builder.HasKey(x => x.Id);
             builder.Property(x => x.EstimateId).IsRequired();
             builder.Property(x => x.CompanyServiceId).IsRequired();
-            builder.Property(x => x.Value).IsRequired();
+            builder.Property(x => x.Value).HasPrecision(15, 2).IsRequired();
+            builder.Property(x => x.Price).HasPrecision(15, 2);
+            builder.Property(x => x.Amount).HasPrecision(15, 2);
 
             builder
                 .HasOne(x => x.Estimate)
