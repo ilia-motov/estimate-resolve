@@ -1,10 +1,18 @@
 ﻿using EstimateResolve.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 namespace EstimateResolve.DataAccess
 {
     public class EstimateResolveDbContext : DbContext
     {
+        private readonly IConfiguration _configuration;
+
+        public EstimateResolveDbContext(IConfiguration  configuration)
+        {
+            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+        }
+
         public DbSet<Client> Clients { get; set; }
 
         public DbSet<CompanyService> CompanyServices { get; set; }
@@ -25,15 +33,17 @@ namespace EstimateResolve.DataAccess
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder
-                .UseSqlite("Filename=EstimateResolve.db")
-                .UseSnakeCaseNamingConvention();
-
-            return;
-
-            optionsBuilder
-                .UseNpgsql("Host=localhost:5432;Database=Estimate;Username=posgres;Password=admin")
-                .UseSnakeCaseNamingConvention();
+            var fileBasedDatabase = _configuration.GetValue<bool>("IsFileBasedDatabase");
+            if (fileBasedDatabase)
+            {
+                optionsBuilder.UseSqlite("Filename=EstimateResolve.db").UseSnakeCaseNamingConvention();
+            }
+            else
+            {
+                optionsBuilder
+                    .UseNpgsql("Host=localhost:5432;Database=Estimate;Username=posgres;Password=admin")
+                    .UseSnakeCaseNamingConvention();
+            }
         }
     }
 }

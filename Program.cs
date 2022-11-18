@@ -1,28 +1,59 @@
-﻿using EstimateResolve.DataAccess;
+using EstimateResolve.DataAccess;
+using TanvirArjel.EFCore.GenericRepository;
 
-AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+var builder = WebApplication.CreateBuilder(args);
+var configuration = builder.Configuration;
 
-using (var context = new EstimateResolveDbContext())
+
+// Add services to the container.
+builder.Services.AddDbContext<EstimateResolveDbContext>();
+builder.Services.AddGenericRepository<EstimateResolveDbContext>();
+builder.Services.AddRazorPages();
+builder.Services.AddServerSideBlazor();
+
+builder.Services.AddControllers();
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+builder.Services.AddScoped<IDataSeedingService, DataSeedingService>();
+
+var app = builder.Build();
+
+app.Services
+    .CreateScope()
+    .ServiceProvider
+    .GetRequiredService<IDataSeedingService>()
+    .SeedDatabase();
+
+// Configure the HTTP request pipeline.
+if (!app.Environment.IsDevelopment())
 {
-    var dataSeedingService = new DataSeedingService(context);
-    dataSeedingService.SeedDatabase();
+    app.UseExceptionHandler("/Error");
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseHsts();
 }
 
-/*var repository = new UnitOfMeasurementRepository();
-var unitOfMeasurements = await repository.GetAll();
-
-await repository.Update(1, new UnitOfMeasurement
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
 {
-    Id = 1, 
-    Name = "м2"
-});
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
-var stringResult = unitOfMeasurements
-    .Select(u => $"id: {u.Id} name: {u.Name}");
+app.UseHttpsRedirection();
 
-Console.WriteLine(string.Join("\n", stringResult));
-Console.ReadKey();
-*/
+app.UseHttpsRedirection();
 
+app.UseAuthorization();
 
-//var repository = new MaterialRepository();
+app.MapControllers();
+
+app.UseStaticFiles();
+
+app.UseRouting();
+
+app.MapBlazorHub();
+app.MapFallbackToPage("/_Host");
+
+app.Run();
