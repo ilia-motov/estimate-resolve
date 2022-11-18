@@ -3,18 +3,18 @@
 namespace EstimateResolve.DataTransferObjects
 {
     /// <summary>
-    /// Представляет класс заказчика.
+    /// Представляет класс объекта передачи данных заказчика.
     /// </summary>
     public class ClientDto
     {
         /// <summary>
-        /// Получает или устанавливает идентификатор заказчика.
+        /// Получает идентификатор заказчика.
         /// </summary>
-        public int Id { get; set; }
+        public int Id { get; init; }
 
         /// <summary>
-        /// Получает или устанавливает имя заказчика.
+        /// Получает имя заказчика.
         /// </summary>
-        public string Name { get; set; }
+        public string Name { get; init; }
     }
 }
