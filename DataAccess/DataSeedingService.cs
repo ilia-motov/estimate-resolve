@@ -1,6 +1,4 @@
 ﻿using EstimateResolve.Entities;
-using EstimateResolve.Repositories;
-using Microsoft.EntityFrameworkCore;
 
 namespace EstimateResolve.DataAccess
 {
