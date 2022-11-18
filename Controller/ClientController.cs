@@ -29,7 +29,7 @@ namespace EstimateResolve.Controller
             await _repository.SaveChangesAsync();
         }
 
-        [HttpGet("govno")]
+        [HttpGet("[action]")]
         public async Task<List<ClientDto>> ReadAll(int pageIndex = 1, int pageSize = 10)
         {
             var specification = new PaginationSpecification<Client>
@@ -47,7 +47,7 @@ namespace EstimateResolve.Controller
             return paginatedList.Items;
         }
 
-        [HttpGet("hui")]
+        [HttpGet("[action]")]
         public async Task<ClientDto> Read(int id)
         {
             var client = await _repository.GetByIdAsync<Client>(id);
