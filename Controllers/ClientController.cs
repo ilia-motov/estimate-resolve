@@ -10,7 +10,7 @@ namespace EstimateResolve.Controllers
     /// </summary>
     [ApiController]
     [Route("[controller]")]
-    public class ClientController : ControllerBase
+    public class ClientController : ControllerBase, IController<ClientDto>
     {
         private readonly IRepository _repository;
 
@@ -31,15 +31,15 @@ namespace EstimateResolve.Controllers
         /// <param name="client">Заказчик для создания.</param>
         /// <returns>Объект <see cref="Task"/>, представляющий асинхронную операцию.</returns>
         [HttpPut]
-        public async Task Create(ClientDto client)
+        public async Task Create(ClientDto clientDto)
         {
-            var entity = new Client
+            var client = new Client
             {
-                Id = client.Id,
-                Name = client.Name,
+                Id = clientDto.Id,
+                Name = clientDto.Name,
             };
 
-            _repository.Add(entity);
+            _repository.Add(client);
             await _repository.SaveChangesAsync();
         }
 
@@ -59,10 +59,10 @@ namespace EstimateResolve.Controllers
                 PageSize = pageSize
             };
 
-            var paginatedList = await _repository.GetListAsync(specification, e => new ClientDto
+            var paginatedList = await _repository.GetListAsync(specification, x => new ClientDto
             {
-                Id = e.Id,
-                Name = e.Name,
+                Id = x.Id,
+                Name = x.Name,
             });
 
             return paginatedList.Items;
@@ -94,7 +94,6 @@ namespace EstimateResolve.Controllers
         {
             var client = await _repository.GetByIdAsync<Client>(clientDto.Id);
 
-            client.Id = clientDto.Id;
             client.Name = clientDto.Name;
 
             _repository.Update(client);
