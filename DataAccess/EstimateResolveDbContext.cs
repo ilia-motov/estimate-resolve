@@ -8,7 +8,7 @@ namespace EstimateResolve.DataAccess
     {
         private readonly IConfiguration _configuration;
 
-        public EstimateResolveDbContext(IConfiguration  configuration)
+        public EstimateResolveDbContext(IConfiguration configuration)
         {
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         }

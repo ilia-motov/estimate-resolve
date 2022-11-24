@@ -1,5 +1,7 @@
 using System.Reflection;
+using EstimateResolve.Controllers;
 using EstimateResolve.DataAccess;
+using EstimateResolve.DataTransferObjects;
 using Microsoft.OpenApi.Models;
 using TanvirArjel.EFCore.GenericRepository;
 
@@ -24,6 +26,7 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 builder.Services.AddScoped<IDataSeedingService, DataSeedingService>();
+builder.Services.AddScoped<IController<ClientDto>, ClientController>();
 
 var app = builder.Build();
 

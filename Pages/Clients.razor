@@ -1,0 +1,46 @@
+﻿@page "/clients"
+
+@using EstimateResolve.Controllers
+@using EstimateResolve.DataTransferObjects
+
+@inject IController<ClientDto> ClientController
+
+<PageTitle>Заказчики</PageTitle>
+
+<h1>Заказчики</h1>
+
+<p>Эта страница демонстрирует список заказчиков в системе.</p>
+
+@if (clients == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var client in clients)
+            {
+                <tr>
+                    <td>@client.Id</td>
+                    <td>@client.Name</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<ClientDto>? clients;
+
+    protected override async Task OnInitializedAsync()
+    {
+        clients = await ClientController.ReadAll();
+    }
+}
