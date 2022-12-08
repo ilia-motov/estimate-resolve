@@ -1,4 +1,6 @@
-﻿using EstimateResolve.Entities;
+﻿using System.Globalization;
+using EstimateResolve.Entities;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
@@ -33,15 +35,25 @@ namespace EstimateResolve.DataAccess
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            optionsBuilder.UseLoggerFactory(LoggerFactory.Create(builder => builder.AddConsole()));
+
             var fileBasedDatabase = _configuration.GetValue<bool>("IsFileBasedDatabase");
             if (fileBasedDatabase)
             {
-                optionsBuilder.UseSqlite("Filename=EstimateResolve.db").UseSnakeCaseNamingConvention();
+                var connectionString = _configuration.GetConnectionString("FileBasedConnection");
+                var connection = new SqliteConnection(connectionString);
+
+                connection.CreateCollation("NOCASE", (x, y) => string.Compare(x, y, true, new CultureInfo("ru-RU")));
+                connection.CreateFunction("upper", (string value) => value.ToUpper(new CultureInfo("ru-RU")));
+                connection.CreateFunction("lower", (string value) => value.ToLower(new CultureInfo("ru-RU")));
+
+                optionsBuilder.UseSqlite(connection)
+                    .UseSnakeCaseNamingConvention();
             }
             else
             {
                 optionsBuilder
-                    .UseNpgsql("Host=localhost:5432;Database=Estimate;Username=posgres;Password=admin")
+                    .UseNpgsql(_configuration.GetConnectionString("ServerBasedConnection"))
                     .UseSnakeCaseNamingConvention();
             }
         }

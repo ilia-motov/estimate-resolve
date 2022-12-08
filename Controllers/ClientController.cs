@@ -1,6 +1,9 @@
-﻿using EstimateResolve.DataTransferObjects;
+﻿using System.Linq.Expressions;
+using EstimateResolve.DataTransferObjects;
 using EstimateResolve.Entities;
+using EstimateResolve.Pages;
 using Microsoft.AspNetCore.Mvc;
+using MudBlazor;
 using TanvirArjel.EFCore.GenericRepository;
 
 namespace EstimateResolve.Controllers
@@ -15,7 +18,7 @@ namespace EstimateResolve.Controllers
         private readonly IRepository _repository;
 
         /// <summary>
-        /// Создает новый экземляр <see cref="ClientController"/>.
+        /// Создает новый экземпляр <see cref="ClientController"/>.
         /// </summary>
         /// <param name="repository">Репозиторий сохраняемости, над которым будет работать контроллер.</param>
         /// <exception cref="ArgumentNullException"></exception>
@@ -51,13 +54,28 @@ namespace EstimateResolve.Controllers
         /// <see cref="Task"/>, представляющий асинхронную операцию, содержащую <see cref="List<ClientDto>"/>
         /// операции.
         [HttpGet("[action]")]
-        public async Task<List<ClientDto>> ReadAll(int pageIndex = 1, int pageSize = 10)
+        public async Task<(long, List<ClientDto>)> ReadAll(
+            string searchString,
+            string sortLabel,
+            SortDirection sortDirection,
+            int pageIndex = 1,
+            int pageSize = 10)
         {
             var specification = new PaginationSpecification<Client>
             {
+                Conditions = new List<Expression<Func<Client, bool>>>
+                {
+                    x => string.IsNullOrWhiteSpace(searchString)
+                    || x.Id.ToString().Contains(searchString.Trim())
+                    || x.Name.Trim().ToLower().Contains(searchString.Trim().ToLower())
+                    || (x.Id.ToString() + " " + x.Name).Contains(searchString.Trim().ToLower())
+                },
                 PageIndex = pageIndex,
                 PageSize = pageSize
             };
+
+            if (sortLabel != null)
+            specification.OrderByDynamic = (sortLabel, sortDirection.ToString());
 
             var paginatedList = await _repository.GetListAsync(specification, x => new ClientDto
             {
@@ -65,7 +83,7 @@ namespace EstimateResolve.Controllers
                 Name = x.Name,
             });
 
-            return paginatedList.Items;
+            return (paginatedList.TotalItems, paginatedList.Items);
         }
 
         /// <summary>

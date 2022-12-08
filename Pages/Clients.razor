@@ -1,46 +1,67 @@
 ﻿@page "/clients"
 
-@using EstimateResolve.Controllers
-@using EstimateResolve.DataTransferObjects
-
-@inject IController<ClientDto> ClientController
-
 <PageTitle>Заказчики</PageTitle>
 
-<h1>Заказчики</h1>
+<MudButton Class="mb-16" Variant="Variant.Filled" Color="Color.Secondary" OnClick="@(async () => await Delete())">Удалить</MudButton>
 
-<p>Эта страница демонстрирует список заказчиков в системе.</p>
+<MudTable
+    ServerData="@(new Func<TableState, Task<TableData<ClientDto>>>(ServerReload))"
+    MultiSelection="true"
+    Hover="true"
+    CanCancelEdit="true"
+    @bind-SelectedItem="_selectedItem"
+    @bind-SelectedItems="_selectedItems"
+    SortLabel="Sort By"
+    CommitEditTooltip="Записать"
+    OnCommitEditClick="@(() => Snackbar.Add("Элемент сохранен"))"
+    RowEditPreview="BackupItem"
+    RowEditCancel="ResetItemToOriginalValues"
+    RowEditCommit="ItemHasBeenCommitted"
+    IsEditRowSwitchingBlocked="true"
+    ApplyButtonPosition="TableApplyButtonPosition.End"
+    EditButtonPosition="TableEditButtonPosition.End"
+    EditTrigger="TableEditTrigger.EditButton"
+    Breakpoint="Breakpoint.Sm"
+    LoadingProgressColor="Color.Info"
+    @ref="_table">
 
-@if (clients == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var client in clients)
-            {
-                <tr>
-                    <td>@client.Id</td>
-                    <td>@client.Name</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
-
-@code {
-    private List<ClientDto>? clients;
-
-    protected override async Task OnInitializedAsync()
-    {
-        clients = await ClientController.ReadAll();
-    }
-}
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">Заказчики</MudText>
+        <MudSpacer />
+        <MudTextField
+            T="string"
+            ValueChanged="@(async (s) => OnSearch(s))"
+            Placeholder="Поиск"
+            Adornment="Adornment.Start"
+            AdornmentIcon="@Icons.Material.Filled.Search"
+            IconSize="Size.Medium"
+            Class="mt-0">
+        </MudTextField>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh><MudTableSortLabel SortLabel="@nameof(ClientDto.Id)" T="ClientDto">Код</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="@nameof(ClientDto.Id)" T="ClientDto">Наименование</MudTableSortLabel></MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="@nameof(ClientDto.Id)">@context.Id</MudTd>
+        <MudTd DataLabel="@nameof(ClientDto.Name)">@context.Name</MudTd>
+    </RowTemplate>
+    <RowEditingTemplate>
+        <MudTd DataLabel="@nameof(ClientDto.Id)">@context.Id</MudTd>
+        <MudTd DataLabel="@nameof(ClientDto.Name)">
+            <MudTextField @bind-Value="@context.Name" Required />
+        </MudTd>
+    </RowEditingTemplate>
+    <NoRecordsContent>
+        <MudText>Совпадающих записей не найдено</MudText>
+    </NoRecordsContent>
+    <LoadingContent>
+        <MudText>Загрузка...</MudText>
+    </LoadingContent>
+    <PagerContent>
+        <MudTablePager />
+    </PagerContent>
+    <EditButtonContent Context="button">
+        <MudIconButton Size="@Size.Small" Icon="@Icons.Outlined.Edit" Class="pa-0" OnClick="@button.ButtonAction" Disabled="@button.ButtonDisabled" />
+    </EditButtonContent>
+</MudTable>

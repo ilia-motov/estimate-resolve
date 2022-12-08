@@ -3,6 +3,7 @@ using EstimateResolve.DataTransferObjects;
 using EstimateResolve.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MudBlazor;
 using TanvirArjel.EFCore.GenericRepository;
 
 namespace EstimateResolve.Controllers
@@ -55,7 +56,12 @@ namespace EstimateResolve.Controllers
         /// <see cref="Task"/>, представляющий асинхронную операцию, содержащую <see cref="List<ContractDto>"/>
         /// операции.
         [HttpGet("[action]")]
-        public async Task<List<ContractDto>> ReadAll(int pageIndex = 1, int pageSize = 10)
+        public async Task<(long, List<ContractDto>)> ReadAll(
+            string searchString,
+            string sortLabel,
+            SortDirection sortDirection,
+            int pageIndex = 1,
+            int pageSize = 10)
         {
             var specification = new PaginationSpecification<Contract>
             {
@@ -80,7 +86,7 @@ namespace EstimateResolve.Controllers
                 }
             });
 
-            return paginatedList.Items;
+            return (paginatedList.TotalItems, paginatedList.Items);
         }
 
         /// <summary>

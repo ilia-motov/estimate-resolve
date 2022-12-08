@@ -54,7 +54,8 @@ namespace EstimateResolve.DataAccess
                 },
                 new ConstructionObject
                 {
-                    Id = 2,ClientId = 3,
+                    Id = 2,
+                    ClientId = 3,
                     Name = "Реконструкция спортивного клуба г.Нижний Новгород, пр.Героев д.27"
                 },
             };
