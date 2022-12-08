@@ -3,16 +3,16 @@
 <PageTitle>Заказчики</PageTitle>
 
 <MudButton Class="mb-16" Variant="Variant.Filled" Color="Color.Secondary" OnClick="@(async () => await Delete())">Удалить</MudButton>
+<MudButton Class="mb-16" Variant="Variant.Filled" Color="Color.Primary"OnClick="@(async () => await Create())">Создать</MudButton>
+
 
 <MudTable
     ServerData="@(new Func<TableState, Task<TableData<ClientDto>>>(ServerReload))"
     MultiSelection="true"
     Hover="true"
     CanCancelEdit="true"
-    @bind-SelectedItem="_selectedItem"
-    @bind-SelectedItems="_selectedItems"
     SortLabel="Sort By"
-    CommitEditTooltip="Записать"
+    CommitEditTooltip="Сохранить"
     OnCommitEditClick="@(() => Snackbar.Add("Элемент сохранен"))"
     RowEditPreview="BackupItem"
     RowEditCancel="ResetItemToOriginalValues"

@@ -1,21 +1,22 @@
 ﻿using EstimateResolve.Controllers;
 using EstimateResolve.DataTransferObjects;
+using EstimateResolve.Shared;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
-namespace EstimateResolve.Pages
+namespace EstimateResolve.Pages.Clients
 {
-    public partial class Clients
+    public partial class ClientsPage
     {
         private MudTable<ClientDto> _table;
         private string _searchString = string.Empty;
-        private ClientDto? _selectedItem;
         private ClientDto _itemBeforeEdit;
-        private HashSet<ClientDto> _selectedItems = new HashSet<ClientDto>();
-        private ClientDto newClient;
 
         [Inject]
         public IController<ClientDto> Controller { get; set; }
+
+        [Inject]
+        public IDialogService DialogService { get; set; }
 
         [Inject]
         public ISnackbar Snackbar { get; set; }
@@ -62,16 +63,28 @@ namespace EstimateResolve.Pages
 
         private async Task Delete()
         {
-            foreach (var item in _selectedItems)
+            if (_table.SelectedItems.Count == 0)
+                return;
+
+            var closeOnEscapeKey = new DialogOptions() { CloseOnEscapeKey = true };
+            var dialogResult = await DialogService.Show<DeleteDataDialog>("Удалить", closeOnEscapeKey).Result;
+
+            if (dialogResult.Cancelled)
+                return;
+
+            foreach (var item in _table.SelectedItems)
                 await Controller.Delete(item.Id);
 
             await _table.ReloadServerData();
         }
 
-        private async Task Create(ClientDto newClient)
+        private async Task Create()
         {
+            var closeOnEscapeKey = new DialogOptions() { CloseOnEscapeKey = true };
+            var dialogResult = await DialogService.Show<CreateClientDialog>("Создание клиента", closeOnEscapeKey).Result;
 
-            await Controller.Create(newClient);
+            if (!dialogResult.Cancelled)
+                await _table.ReloadServerData();
         }
     }
 }
