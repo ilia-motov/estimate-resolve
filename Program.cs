@@ -3,6 +3,7 @@ using EstimateResolve.Controllers;
 using EstimateResolve.DataAccess;
 using EstimateResolve.DataTransferObjects;
 using Microsoft.OpenApi.Models;
+using MudBlazor.Services;
 using TanvirArjel.EFCore.GenericRepository;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +15,7 @@ builder.Services.AddDbContext<EstimateResolveDbContext>();
 builder.Services.AddGenericRepository<EstimateResolveDbContext>();
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+builder.Services.AddMudServices();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

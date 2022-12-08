@@ -1,9 +1,11 @@
-﻿using System.Diagnostics.Contracts;
+﻿using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq.Expressions;
 using EstimateResolve.DataTransferObjects;
 using EstimateResolve.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MudBlazor;
 using TanvirArjel.EFCore.GenericRepository;
 
 namespace EstimateResolve.Controllers
@@ -84,7 +86,12 @@ namespace EstimateResolve.Controllers
         /// <see cref="Task"/>, представляющий асинхронную операцию, содержащую <see cref="List<EstimateDto>"/>
         /// операции.
         [HttpGet("[action]")]
-        public async Task<List<EstimateDto>> ReadAll(int pageIndex = 1, int pageSize = 10)
+        public async Task<(long, List<EstimateDto>)> ReadAll(
+            string searchString,
+            string sortLabel,
+            SortDirection sortDirection,
+            int pageIndex = 1,
+            int pageSize = 10)
         {
             var specification = new PaginationSpecification<Estimate>
             {
@@ -161,7 +168,7 @@ namespace EstimateResolve.Controllers
                     .ToList()
             });
 
-            return paginatedList.Items;
+            return (paginatedList.TotalItems, paginatedList.Items);
         }
 
         /// <summary>

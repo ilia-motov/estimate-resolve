@@ -1,4 +1,6 @@
-﻿using EstimateResolve.DataTransferObjects;
+﻿
+using System.Collections.Generic;
+using MudBlazor;
 
 namespace EstimateResolve.Controllers
 {
@@ -7,9 +9,14 @@ namespace EstimateResolve.Controllers
     /// </summary>
     public interface IController<T>
     {
-        Task Create(T client);
+        Task Create(T entity);
 
-        Task<List<T>> ReadAll(int pageIndex = 1, int pageSize = 10);
+        Task<(long, List<T>)> ReadAll(
+            string searchString,
+            string sortLabel,
+            SortDirection sortDirection,
+            int pageIndex = 1,
+            int pageSize = 10);
 
         Task<T> Read(int id);
 
