@@ -1,0 +1,75 @@
+﻿@page "/materials"
+
+<PageTitle>База материалов</PageTitle>
+
+<MudButton Class="mb-16" Variant="Variant.Filled" Color="Color.Secondary" OnClick="@(async () => await Delete())">Удалить</MudButton>
+<MudButton Class="mb-16" Variant="Variant.Filled" Color="Color.Primary" OnClick="@(async () => await Create())">Создать</MudButton>
+
+
+<MudTable ServerData="@(new Func<TableState, Task<TableData<MaterialDto>>>(ServerReload))"
+          MultiSelection="true"
+          Hover="true"
+          CanCancelEdit="true"
+          SortLabel="Sort By"
+          CommitEditTooltip="Сохранить"
+          OnCommitEditClick="@(() => Snackbar.Add("Элемент сохранен"))"
+          RowEditPreview="BackupItem"
+          RowEditCancel="ResetItemToOriginalValues"
+          RowEditCommit="ItemHasBeenCommitted"
+          IsEditRowSwitchingBlocked="true"
+          ApplyButtonPosition="TableApplyButtonPosition.End"
+          EditButtonPosition="TableEditButtonPosition.End"
+          EditTrigger="TableEditTrigger.EditButton"
+          Breakpoint="Breakpoint.Sm"
+          LoadingProgressColor="Color.Info"
+          @ref="_table">
+
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">Материалы</MudText>
+        <MudSpacer />
+        <MudTextField T="string"
+                      ValueChanged="@(async (s) => OnSearch(s))"
+                      Placeholder="Поиск"
+                      Adornment="Adornment.Start"
+                      AdornmentIcon="@Icons.Material.Filled.Search"
+                      IconSize="Size.Medium"
+                      Class="mt-0">
+        </MudTextField>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh><MudTableSortLabel SortLabel="@nameof(MaterialDto.Id)" T="MaterialDto">Код</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="@nameof(MaterialDto.Name)" T="MaterialDto">Наименование</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="@nameof(MaterialDto.UnitsRev)" T="MaterialDto">Единица измерения</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="@nameof(MaterialDto.Price)" T="MaterialDto">Цена</MudTableSortLabel></MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="@nameof(MaterialDto.Id)">@context.Id</MudTd>
+        <MudTd DataLabel="@nameof(MaterialDto.Name)">@context.Name</MudTd>
+        <MudTd DataLabel="@nameof(MaterialDto.UnitsRev)">@context.UnitsRev</MudTd>
+        <MudTd DataLabel="@nameof(MaterialDto.Price)">@context.Price</MudTd>
+    </RowTemplate>
+    <RowEditingTemplate>
+        <MudTd DataLabel="@nameof(MaterialDto.Id)">@context.Id</MudTd>
+        <MudTd DataLabel="@nameof(MaterialDto.Name)">
+            <MudTextField @bind-Value="@context.Name" Required />
+        </MudTd>
+        <MudTd DataLabel="@nameof(MaterialDto.UnitsRev)">
+            <MudTextField @bind-Value="@context.UnitsRev" Required />
+        </MudTd>
+        <MudTd DataLabel="@nameof(MaterialDto.Price)">
+            <MudTextField @bind-Value="@context.Price" Required />
+        </MudTd>
+    </RowEditingTemplate>
+    <NoRecordsContent>
+        <MudText>Совпадающих записей не найдено</MudText>
+    </NoRecordsContent>
+    <LoadingContent>
+        <MudText>Загрузка...</MudText>
+    </LoadingContent>
+    <PagerContent>
+        <MudTablePager />
+    </PagerContent>
+    <EditButtonContent Context="button">
+        <MudIconButton Size="@Size.Small" Icon="@Icons.Outlined.Edit" Class="pa-0" OnClick="@button.ButtonAction" Disabled="@button.ButtonDisabled" />
+    </EditButtonContent>
+</MudTable>

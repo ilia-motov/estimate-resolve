@@ -29,6 +29,9 @@ builder.Services.AddSwaggerGen(options =>
 
 builder.Services.AddScoped<IDataSeedingService, DataSeedingService>();
 builder.Services.AddScoped<IController<ClientDto>, ClientController>();
+builder.Services.AddScoped<IController<UnitOfMeasurementDto>, UnitOfMeasurementController>();
+builder.Services.AddScoped<IController<MaterialDto>, MaterialController>();
+
 
 var app = builder.Build();
 

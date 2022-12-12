@@ -1,0 +1,35 @@
+﻿<MudDialog>
+    <DialogContent>
+        <MudTextField T="string" @bind-Value="_name" Label="Наименование"></MudTextField>
+        <MudTextField T="string" @bind-Value="_unitsRev" Label="Единица измерения"></MudTextField>
+        <MudTextField T="decimal" @bind-Value="_price" Label="Цена"></MudTextField>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Отмена</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit">Сохранить</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    private string _name;
+    private string _unitsRev;
+    private decimal _price;
+
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    [Inject]
+    public IController<MaterialDto> Controller { get; set; }
+
+    private async Task Submit()
+    {
+        await Controller.Create(new MaterialDto
+            {
+                Name = _name,
+                UnitsRev = _unitsRev,
+                Price = _price
+            });
+        MudDialog.Close(DialogResult.Ok(true));
+    }
+
+    private void Cancel() => MudDialog.Cancel();
+}
