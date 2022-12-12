@@ -10,7 +10,7 @@ namespace EstimateResolve.DataTransferObjects
         /// <summary>
         /// Получает идентификатор материала.
         /// </summary>
-        public int Id { get; init; }
+        public int Id { get; set; }
 
         /// <summary>
         /// Получает или устанавливает имя материала.

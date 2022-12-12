@@ -10,7 +10,7 @@ namespace EstimateResolve.DataTransferObjects
         /// <summary>
         /// Получает идентификатор единицы измерения.
         /// </summary>
-        public int Id { get; init;}
+        public int Id { get; set;}
 
         /// <summary>
         /// Получает или изменяет имя единицы измерения.

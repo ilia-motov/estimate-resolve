@@ -1,4 +1,5 @@
-﻿using EstimateResolve.DataTransferObjects;
+﻿using System.Linq.Expressions;
+using EstimateResolve.DataTransferObjects;
 using EstimateResolve.Entities;
 using Microsoft.AspNetCore.Mvc;
 using MudBlazor;
@@ -59,11 +60,21 @@ namespace EstimateResolve.Controllers
             int pageIndex = 1,
             int pageSize = 10)
         {
-            var specification = new PaginationSpecification<Client>
+            var specification = new PaginationSpecification<UnitOfMeasurement>
             {
+                Conditions = new List<Expression<Func<UnitOfMeasurement, bool>>>
+                {
+                    x => string.IsNullOrWhiteSpace(searchString)
+                    || x.Id.ToString().Contains(searchString.Trim())
+                    || x.Name.Trim().ToLower().Contains(searchString.Trim().ToLower())
+                    || (x.Id.ToString() + " " + x.Name).Contains(searchString.Trim().ToLower())
+                },
                 PageIndex = pageIndex,
                 PageSize = pageSize
             };
+
+            if (sortLabel != null)
+                specification.OrderByDynamic = (sortLabel, sortDirection.ToString());
 
             var paginatedList = await _repository.GetListAsync(specification, x => new UnitOfMeasurementDto
             {
