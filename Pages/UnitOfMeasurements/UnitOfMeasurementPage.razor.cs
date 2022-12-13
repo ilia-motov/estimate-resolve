@@ -28,7 +28,7 @@ namespace EstimateResolve.Pages.UnitOfMeasurements
         private async Task<TableData<UnitOfMeasurementDto>> ServerReload(TableState state)
         {
             var data = await Controller.ReadAll(_searchString, state.SortLabel, state.SortDirection, state.Page + 1, state.PageSize);
-            return new TableData<UnitOfMeasurementDto>() { TotalItems = (int)data.Item1, Items = data.Item2 };
+            return new TableData<UnitOfMeasurementDto>() { TotalItems = (int)data.TotalItems, Items = data.Items };
         }
 
         private async Task OnSearch(string text)

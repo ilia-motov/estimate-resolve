@@ -18,7 +18,7 @@ namespace EstimateResolve.DataTransferObjects
         public string Name { get; set; }
 
         /// <summary>
-        /// Получает или устанавливает заказчика.
+        /// Получает или задает заказчика.
         /// </summary>
         public ClientDto Client { get; set; }
     }

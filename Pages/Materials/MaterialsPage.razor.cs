@@ -28,7 +28,7 @@ namespace EstimateResolve.Pages.Materials
         private async Task<TableData<MaterialDto>> ServerReload(TableState state)
         {
             var data = await Controller.ReadAll(_searchString, state.SortLabel, state.SortDirection, state.Page + 1, state.PageSize);
-            return new TableData<MaterialDto>() { TotalItems = (int)data.Item1, Items = data.Item2 };
+            return new TableData<MaterialDto>() { TotalItems = (int)data.TotalItems, Items = data.Items };
         }
 
         private async Task OnSearch(string text)

@@ -23,7 +23,7 @@ namespace EstimateResolve.DataTransferObjects
         public UnitOfMeasurementDto UnitOfMeasurement { get; set; }
 
         /// <summary>
-        /// Получает или устанавливает цену за услугу.
+        /// Получает или задает цену за услугу.
         /// </summary>
         public decimal Price { get; set; }
     }

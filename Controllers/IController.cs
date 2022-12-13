@@ -1,5 +1,6 @@
 ﻿
 using System.Collections.Generic;
+using EstimateResolve.DataTransferObjects;
 using MudBlazor;
 
 namespace EstimateResolve.Controllers
@@ -7,14 +8,14 @@ namespace EstimateResolve.Controllers
     /// <summary>
     /// Представляет абстракцию контроллера.
     /// </summary>
-    public interface IController<T>
+    public interface IController<T> where T : class
     {
         Task Create(T entity);
 
-        Task<(long, List<T>)> ReadAll(
-            string searchString,
-            string sortLabel,
-            SortDirection sortDirection,
+        Task<ParginatedListDto<T>> ReadAll(
+            string searchString = "",
+            string sortLabel = "",
+            SortDirection sortDirection = SortDirection.Ascending,
             int pageIndex = 1,
             int pageSize = 10);
 

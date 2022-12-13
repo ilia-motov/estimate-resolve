@@ -55,7 +55,7 @@ namespace EstimateResolve.Controllers
         /// <see cref="Task"/>, представляющий асинхронную операцию, содержащую <see cref="List<MaterialDto>"/>
         /// операции.
         [HttpGet("[action]")]
-        public async Task<(long, List<MaterialDto>)> ReadAll(
+        public async Task<ParginatedListDto<MaterialDto>> ReadAll(
             string searchString,
             string sortLabel,
             SortDirection sortDirection,
@@ -88,7 +88,11 @@ namespace EstimateResolve.Controllers
                 Price = x.Price,
             });
 
-            return (paginatedList.TotalItems, paginatedList.Items);
+            return new ParginatedListDto<MaterialDto>
+            {
+                TotalItems = paginatedList.TotalItems,
+                Items = paginatedList.Items,
+            };
         }
 
         /// <summary>
