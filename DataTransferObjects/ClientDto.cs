@@ -13,7 +13,7 @@ namespace EstimateResolve.DataTransferObjects
         public int Id { get; set; }
 
         /// <summary>
-        /// Получает или устанавливает имя заказчика.
+        /// Получает или задает имя заказчика.
         /// </summary>
         public string Name { get; set; }
     }

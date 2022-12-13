@@ -8,37 +8,37 @@ namespace EstimateResolve.DataTransferObjects
     public class EstimateWorkDto
     {
         /// <summary>
-        /// Получает или устанавливает идентификатор работы.
+        /// Получает или задает идентификатор работы.
         /// </summary>
         public int Id { get; set; }
 
         /// <summary>
-        /// Получает или устанавливает идентификатор сметы.
+        /// Получает или задает идентификатор сметы.
         /// </summary>
         public int EstimateId { get; set; }
 
         /// <summary>
-        /// Получает или устанавливает услугу компании.
+        /// Получает или задает услугу компании.
         /// </summary>
         public CompanyServiceDto CompanyService { get; set; }
 
         /// <summary>
-        /// Получает или устанавливает объем работ.
+        /// Получает или задает объем работ.
         /// </summary>
         public float Value { get; set; }
 
         /// <summary>
-        /// Получает или устанавливает примечание (различия по одинаковым видам работ).
+        /// Получает или задает примечание (различия по одинаковым видам работ).
         /// </summary>
         public string Remark { get; set; }
 
         /// <summary>
-        /// Получает или устанавливает расценку за работу.
+        /// Получает или задает расценку за работу.
         /// </summary>
         public decimal Price { get; set; }
 
         /// <summary>
-        /// Получает или устанавливает стоимость работы.
+        /// Получает или задает стоимость работы.
         /// </summary>
         public decimal Amount { get; set; }
     }

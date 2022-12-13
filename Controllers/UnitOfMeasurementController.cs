@@ -53,7 +53,7 @@ namespace EstimateResolve.Controllers
         /// <see cref="Task"/>, представляющий асинхронную операцию, содержащую <see cref="List<UnitOfMeasurementDto>"/>
         /// операции.
         [HttpGet("[action]")]
-        public async Task<(long, List<UnitOfMeasurementDto>)> ReadAll(
+        public async Task<ParginatedListDto<UnitOfMeasurementDto>> ReadAll(
             string searchString,
             string sortLabel,
             SortDirection sortDirection,
@@ -82,7 +82,11 @@ namespace EstimateResolve.Controllers
                 Name = x.Name,
             });
 
-            return (paginatedList.TotalItems, paginatedList.Items);
+            return new ParginatedListDto<UnitOfMeasurementDto>
+            {
+                TotalItems = paginatedList.TotalItems,
+                Items = paginatedList.Items,
+            };
         }
 
         /// <summary>

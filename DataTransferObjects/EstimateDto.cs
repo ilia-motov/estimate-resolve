@@ -8,47 +8,47 @@ namespace EstimateResolve.DataTransferObjects
     public class EstimateDto
     {
         /// <summary>
-        /// Получает или устанавливает идентификатор сметы.
+        /// Получает или задает идентификатор сметы.
         /// </summary>
         public int Id { get; init; }
 
         /// <summary>
-        /// Получает или устанавливает имя номера сметы.
+        /// Получает или задает имя номера сметы.
         /// </summary>
         public int Number { get; set; }
 
         /// <summary>
-        /// Получает или устанавливает название сметы.
+        /// Получает или задает название сметы.
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// Получает или устанавливает дату составления сметы.
+        /// Получает или задает дату составления сметы.
         /// </summary>
         public DateTime DevelopmentDate { get; set; }
 
         /// <summary>
-        /// Получает или устанавливает объект строительства.
+        /// Получает или задает объект строительства.
         /// </summary>
         public ConstructionObjectDto ConstructionObject { get; set; }
 
         /// <summary>
-        /// Получает или устанавливает заказчика.
+        /// Получает или задает заказчика.
         /// </summary>
         public ClientDto Client { get; set; }
 
         /// <summary>
-        /// Получает или устанавливает договор.
+        /// Получает или задает договор.
         /// </summary>
         public ContractDto Contract { get; set; }
 
         /// <summary>
-        /// Получает или устанавливает список работ.
+        /// Получает или задает список работ.
         /// </summary>
         public List<EstimateWorkDto> Works { get; set; }
 
         /// <summary>
-        /// Получает или устанавливает список материалов в работу.
+        /// Получает или задает список материалов в работу.
         /// </summary>
         public List<EstimateMaterialDto> Materials { get; set; }
     }

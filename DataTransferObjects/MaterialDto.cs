@@ -13,17 +13,17 @@ namespace EstimateResolve.DataTransferObjects
         public int Id { get; set; }
 
         /// <summary>
-        /// Получает или устанавливает имя материала.
+        /// Получает или задает имя материала.
         /// </summary>S
         public string Name { get; set; }
 
         /// <summary>
-        /// Получает или устанавливает единицу измерения материал.
+        /// Получает или задает единицу измерения материал.
         /// </summary>
         public string UnitsRev { get; set; }
 
         /// <summary>
-        /// Получает или устанавливает цену за материал.
+        /// Получает или задает цену за материал.
         /// </summary>
         public decimal Price { get; set; }
     }

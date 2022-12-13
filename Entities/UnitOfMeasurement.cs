@@ -6,17 +6,17 @@
     public class UnitOfMeasurement
     {
         /// <summary>
-        /// Прлучает или устанавливает идентификатор единиц измерения.
+        /// Прлучает или задает идентификатор единиц измерения.
         /// </summary>
         public int Id { get; set; }
 
         /// <summary>
-        /// Получает или устанавливает название единиц измерения.
+        /// Получает или задает название единиц измерения.
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// Получает или устанавливает список услуг компании.
+        /// Получает или задает список услуг компании.
         /// </summary>
         public List<CompanyService> CompanyServices { get; set; }
     }

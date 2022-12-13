@@ -8,49 +8,49 @@ namespace EstimateResolve.DataTransferObjects
     public class EstimateMaterialDto
     {
         /// <summary>
-        /// Получает или устанавливает идентификатор материалов для выполнения работ.
+        /// Получает или задает идентификатор материалов для выполнения работ.
         /// </summary>
         public int Id { get; set; }
 
         /// <summary>
-        /// Получает или устанавливает идентификатор сметы.
+        /// Получает или задает идентификатор сметы.
         /// </summary>
         public int EstimateId { get; set; }
 
         /// <summary>
-        /// Получает или устанавливает идентификатор работы.
+        /// Получает или задает идентификатор работы.
         /// </summary>
         public int EstimateWorkId { get; set; }
 
         /// <summary>
-        /// Получает или устанавливает материал.
+        /// Получает или задает материал.
         /// </summary>
         public MaterialDto Material { get; set; }
 
         /// <summary>
-        /// Получает или устанавливает расход материала на единицу объема.
+        /// Получает или задает расход материала на единицу объема.
         /// </summary>
         public float Consumption { get; set; }
 
 
         /// <summary>
-        /// Получает или устанавливает объем работ.
+        /// Получает или задает объем работ.
         /// </summary>
         public float ValueWorking { get; set; }
 
 
         /// <summary>
-        /// Получает или устанавливает общий объем материала для работы.
+        /// Получает или задает общий объем материала для работы.
         /// </summary>
         public float Quantity { get; set; }
 
         /// <summary>
-        /// Получает или устанавливает цену за материал.
+        /// Получает или задает цену за материал.
         /// </summary>
         public decimal Price { get; set; }
 
         /// <summary>
-        /// Получает или устанавливает стоимость материала.
+        /// Получает или задает стоимость материала.
         /// </summary>
         public decimal Amount { get; set; }
     }
