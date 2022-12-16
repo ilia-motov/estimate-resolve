@@ -10,6 +10,8 @@ namespace EstimateResolve.Controllers
     /// </summary>
     public interface IController<T> where T : class
     {
+        Task<List<T>> Autocomplete(string searchString);
+
         Task Create(T entity);
 
         Task<ParginatedListDto<T>> ReadAll(

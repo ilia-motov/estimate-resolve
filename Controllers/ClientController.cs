@@ -27,6 +27,28 @@ namespace EstimateResolve.Controllers
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
 
+        [HttpGet("[action]")]
+        public async Task<List<ClientDto>> Autocomplete(string searchString)
+        {
+            var specification = new Specification<Client>
+            {
+                Conditions = new List<Expression<Func<Client, bool>>>
+                {
+                    x => string.IsNullOrWhiteSpace(searchString)
+                    || x.Id.ToString().Contains(searchString.Trim())
+                    || x.Name.Trim().ToLower().Contains(searchString.Trim().ToLower())
+                },
+                Take = 10,
+                OrderByDynamic = (nameof(Client.Name), SortDirection.Ascending.ToString())
+            };
+
+            return await _repository.GetListAsync(specification, x => new ClientDto
+            {
+                Id = x.Id,
+                Name = x.Name,
+            });
+        }
+
         /// <summary>
         /// Создает указанного <paramref name="client"/> в системе,
         /// как асинхронная операция.
