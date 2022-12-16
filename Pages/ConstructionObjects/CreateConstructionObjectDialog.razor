@@ -1,0 +1,48 @@
+﻿<MudDialog>
+    <DialogContent>
+        <MudTextField T="string" @bind-Value="_name" Label="Наименование"></MudTextField>
+        <MudAutocomplete T="ClientDto"
+                         Label="Клиент"
+                         @bind-Value="_client"
+                         SearchFunc="@SearchClient"
+                         ToStringFunc="@(с => с == null ? null : с.Name)"
+                         ShowProgressIndicator="true"
+                         ProgressIndicatorColor="Color.Default">
+            <NoItemsTemplate>
+                <MudText Align="Align.Center" Class="px-4 py-1">
+                    Ничего не найдено
+                    <MudButton Class="mb-16" Variant="Variant.Filled" Color="Color.Primary">Создать</MudButton>
+                </MudText>
+            </NoItemsTemplate>
+        </MudAutocomplete>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Отмена</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit">Сохранить</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    private string _name;
+    private ClientDto _client;
+
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    [Inject]
+    public IController<ClientDto> ClientController { get; set; }
+
+    [Inject]
+    public IController<ConstructionObjectDto> ConstructionObjectController { get; set; }
+
+    private async Task<IEnumerable<ClientDto>> SearchClient(string value) =>
+        await ClientController.Autocomplete(value);
+
+    private async Task Submit()
+    {
+        await ConstructionObjectController.Create(new ConstructionObjectDto { Name = _name, Client = _client });
+        MudDialog.Close(DialogResult.Ok(true));
+    }
+
+    private void Cancel() => MudDialog.Cancel();
+}
+

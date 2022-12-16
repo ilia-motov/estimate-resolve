@@ -28,6 +28,9 @@ namespace EstimateResolve.Controllers
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
 
+        [HttpGet("[action]")]
+        public Task<List<ConstructionObjectDto>> Autocomplete(string searchString) => throw new NotImplementedException();
+
         /// <summary>
         /// Создает указанного <paramref name="сonstructionObject"/> в системе,
         /// как асинхронная операция.
@@ -57,18 +60,28 @@ namespace EstimateResolve.Controllers
         /// операции.
         [HttpGet("[action]")]
         public async Task<ParginatedListDto<ConstructionObjectDto>> ReadAll(
-            string searchString,
-            string sortLabel,
-            SortDirection sortDirection,
+            string searchString = "",
+            string sortLabel = "",
+            SortDirection sortDirection = SortDirection.Ascending,
             int pageIndex = 1,
             int pageSize = 10)
         {
             var specification = new PaginationSpecification<ConstructionObject>
             {
-                Includes = x => x.Include(x => x.Client),
+                Conditions = new List<Expression<Func<ConstructionObject, bool>>>
+                {
+                    x => string.IsNullOrWhiteSpace(searchString)
+                    || x.Id.ToString().Contains(searchString.Trim())
+                    || x.Name.Trim().ToLower().Contains(searchString.Trim().ToLower())
+                    || x.Client.Name.Trim().ToLower().Contains(searchString.Trim().ToLower())
+                    || (x.Id.ToString() + " " + x.Name).Contains(searchString.Trim().ToLower())
+                },
                 PageIndex = pageIndex,
                 PageSize = pageSize
             };
+
+            if (sortLabel != null)
+                specification.OrderByDynamic = (sortLabel, sortDirection.ToString());
 
             var paginatedList = await _repository.GetListAsync(specification, x => new ConstructionObjectDto
             {

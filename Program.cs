@@ -31,6 +31,8 @@ builder.Services.AddScoped<IDataSeedingService, DataSeedingService>();
 builder.Services.AddScoped<IController<ClientDto>, ClientController>();
 builder.Services.AddScoped<IController<UnitOfMeasurementDto>, UnitOfMeasurementController>();
 builder.Services.AddScoped<IController<MaterialDto>, MaterialController>();
+builder.Services.AddScoped<IController<ConstructionObjectDto>, ConstructionObjectController>();
+
 
 
 var app = builder.Build();

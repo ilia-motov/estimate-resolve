@@ -29,6 +29,9 @@ namespace EstimateResolve.Controllers
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
 
+        [HttpGet("[action]")]
+        public Task<List<EstimateDto>> Autocomplete(string searchString) => throw new NotImplementedException();
+
         /// <summary>
         /// Создает указанного <paramref name="estimateDto"/> в системе,
         /// как асинхронная операция.
@@ -87,9 +90,9 @@ namespace EstimateResolve.Controllers
         /// операции.
         [HttpGet("[action]")]
         public async Task<ParginatedListDto<EstimateDto>> ReadAll(
-            string searchString,
-            string sortLabel,
-            SortDirection sortDirection,
+            string searchString = "",
+            string sortLabel = "",
+            SortDirection sortDirection = SortDirection.Ascending,
             int pageIndex = 1,
             int pageSize = 10)
         {

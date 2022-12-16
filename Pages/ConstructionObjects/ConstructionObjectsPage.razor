@@ -1,0 +1,83 @@
+﻿@page "/construction-objects"
+
+<PageTitle>Объекты строительства</PageTitle>
+
+<MudButton Class="mb-16" Variant="Variant.Filled" Color="Color.Secondary" OnClick="@(async () => await Delete())">Удалить</MudButton>
+<MudButton Class="mb-16" Variant="Variant.Filled" Color="Color.Primary" OnClick="@(async () => await Create())">Создать</MudButton>
+
+
+<MudTable ServerData="@(new Func<TableState, Task<TableData<ConstructionObjectDto>>>(ServerReload))"
+          MultiSelection="true"
+          Hover="true"
+          CanCancelEdit="true"
+          SortLabel="Sort By"
+          CommitEditTooltip="Сохранить"
+          OnCommitEditClick="@(() => Snackbar.Add("Элемент сохранен"))"
+          RowEditPreview="BackupItem"
+          RowEditCancel="ResetItemToOriginalValues"
+          RowEditCommit="ItemHasBeenCommitted"
+          IsEditRowSwitchingBlocked="true"
+          ApplyButtonPosition="TableApplyButtonPosition.End"
+          EditButtonPosition="TableEditButtonPosition.End"
+          EditTrigger="TableEditTrigger.EditButton"
+          Breakpoint="Breakpoint.Sm"
+          LoadingProgressColor="Color.Info"
+          @ref="_table">
+
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">Объекты строительства</MudText>
+        <MudSpacer />
+        <MudTextField T="string"
+                      ValueChanged="@(async (s) => OnSearch(s))"
+                      Placeholder="Поиск"
+                      Adornment="Adornment.Start"
+                      AdornmentIcon="@Icons.Material.Filled.Search"
+                      IconSize="Size.Medium"
+                      Class="mt-0">
+        </MudTextField>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh><MudTableSortLabel SortLabel="@nameof(ConstructionObjectDto.Id)" T="ConstructionObjectDto">Код</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="@nameof(ConstructionObjectDto.Name)" T="ConstructionObjectDto">Наименование</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="@nameof(ConstructionObjectDto.Client)" T="ConstructionObjectDto">Заказчик</MudTableSortLabel></MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="@nameof(ConstructionObjectDto.Id)">@context.Id</MudTd>
+        <MudTd DataLabel="@nameof(ConstructionObjectDto.Name)">@context.Name</MudTd>
+        <MudTd DataLabel="@nameof(ConstructionObjectDto.Client)">@context.Client.Name</MudTd>
+    </RowTemplate>
+    <RowEditingTemplate>
+        <MudTd DataLabel="@nameof(ConstructionObjectDto.Id)">@context.Id</MudTd>
+        <MudTd DataLabel="@nameof(ConstructionObjectDto.Name)">
+            <MudTextField @bind-Value="@context.Name" Required />
+        </MudTd>
+        <MudTd DataLabel="@nameof(ConstructionObjectDto.Client)">
+            <MudAutocomplete T="ClientDto"
+                             Label="Клиент"
+                             @bind-Value="context.Client"
+                             SearchFunc="@SearchClient"
+                             ToStringFunc="@(с => с == null ? null : с.Name)"
+                             ShowProgressIndicator="true"
+                             ProgressIndicatorColor="Color.Default">
+                <NoItemsTemplate>
+                    <MudText Align="Align.Center" Class="px-4 py-1">
+                        Ничего не найдено
+                        <MudButton Class="mb-16" Variant="Variant.Filled" Color="Color.Primary">Создать</MudButton>
+                    </MudText>
+                </NoItemsTemplate>
+            </MudAutocomplete>
+        </MudTd>
+    </RowEditingTemplate>
+    <NoRecordsContent>
+        <MudText>Совпадающих записей не найдено</MudText>
+    </NoRecordsContent>
+    <LoadingContent>
+        <MudText>Загрузка...</MudText>
+    </LoadingContent>
+    <PagerContent>
+        <MudTablePager />
+    </PagerContent>
+    <EditButtonContent Context="button">
+        <MudIconButton Size="@Size.Small" Icon="@Icons.Outlined.Edit" Class="pa-0" OnClick="@button.ButtonAction" Disabled="@button.ButtonDisabled" />
+    </EditButtonContent>
+</MudTable>
