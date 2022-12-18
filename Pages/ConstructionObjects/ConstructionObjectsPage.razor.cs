@@ -1,7 +1,6 @@
 ﻿using EstimateResolve.Controllers;
 using EstimateResolve.DataTransferObjects;
-using EstimateResolve.Entities;
-using EstimateResolve.Pages.Clients;
+using EstimateResolve.Pages.ConstructionObjects.Components;
 using EstimateResolve.Shared;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
@@ -16,10 +15,7 @@ namespace EstimateResolve.Pages.ConstructionObjects
         private ConstructionObjectDto _itemBeforeEdit;
 
         [Inject]
-        public IController<ClientDto> ClientController { get; set; }
-
-        [Inject]
-        public IController<ConstructionObjectDto> ConstructionObjectController { get; set; }
+        public IController<ConstructionObjectDto> Controller { get; set; }
 
         [Inject]
         public IDialogService DialogService { get; set; }
@@ -32,7 +28,7 @@ namespace EstimateResolve.Pages.ConstructionObjects
         /// </summary>
         private async Task<TableData<ConstructionObjectDto>> ServerReload(TableState state)
         {
-            var data = await ConstructionObjectController.ReadAll(_searchString, state.SortLabel, state.SortDirection, state.Page + 1, state.PageSize);
+            var data = await Controller.ReadAll(_searchString, state.SortLabel, state.SortDirection, state.Page + 1, state.PageSize);
             return new TableData<ConstructionObjectDto>() { TotalItems = (int)data.TotalItems, Items = data.Items };
         }
 
@@ -62,7 +58,7 @@ namespace EstimateResolve.Pages.ConstructionObjects
 
         private void ItemHasBeenCommitted(object element)
         {
-            ConstructionObjectController.Update((ConstructionObjectDto)element);
+            Controller.Update((ConstructionObjectDto)element);
             StateHasChanged();
         }
 
@@ -93,7 +89,7 @@ namespace EstimateResolve.Pages.ConstructionObjects
                 return;
 
             foreach (var item in _table.SelectedItems)
-                await ClientController.Delete(item.Id);
+                await Controller.Delete(item.Id);
 
             await _table.ReloadServerData();
         }
@@ -106,8 +102,5 @@ namespace EstimateResolve.Pages.ConstructionObjects
             if (!dialogResult.Cancelled)
                 await _table.ReloadServerData();
         }
-
-        private async Task<IEnumerable<ClientDto>> SearchClient(string value) =>
-            await ClientController.Autocomplete(value);
     }
 }

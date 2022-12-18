@@ -5,12 +5,12 @@ namespace EstimateResolve.DataTransferObjects
     /// <summary>
     /// Представляет класс объекта передачи данных услуги компании.
     /// </summary>
-    public class CompanyServiceDto
+    public class CompanyServiceDto : IDto
     {
         /// <summary>
         /// Получает идентификатор услуги компании.
         /// </summary>
-        public int Id { get; init; }
+        public int Id { get; set; }
 
         /// <summary>
         /// Получает имя услуги компании.

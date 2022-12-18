@@ -27,7 +27,26 @@ namespace EstimateResolve.Controllers
         }
 
         [HttpGet("[action]")]
-        public Task<List<MaterialDto>> Autocomplete(string searchString) => throw new NotImplementedException();
+        public async Task<List<MaterialDto>> Autocomplete(string searchString)
+        {
+            var specification = new Specification<Material>
+            {
+                Conditions = new List<Expression<Func<Material, bool>>>
+                {
+                    x => string.IsNullOrWhiteSpace(searchString)
+                    || x.Id.ToString().Contains(searchString.Trim())
+                    || x.Name.Trim().ToLower().Contains(searchString.Trim().ToLower())
+                },
+                Take = 10,
+                OrderByDynamic = (nameof(Material.Name), SortDirection.Ascending.ToString())
+            };
+
+            return await _repository.GetListAsync(specification, x => new MaterialDto
+            {
+                Id = x.Id,
+                Name = x.Name,
+            });
+        }
 
         /// <summary>
         /// Создает указанного <paramref name="material"/> в системе,

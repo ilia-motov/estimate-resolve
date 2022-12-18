@@ -1,5 +1,4 @@
 ﻿
-using System.Collections.Generic;
 using EstimateResolve.DataTransferObjects;
 using MudBlazor;
 
@@ -8,7 +7,7 @@ namespace EstimateResolve.Controllers
     /// <summary>
     /// Представляет абстракцию контроллера.
     /// </summary>
-    public interface IController<T> where T : class
+    public interface IController<T> where T : IDto
     {
         Task<List<T>> Autocomplete(string searchString);
 

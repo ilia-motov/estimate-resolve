@@ -5,12 +5,12 @@ namespace EstimateResolve.DataTransferObjects
     /// <summary>
     /// Представляет класс объекта передачи данных договора.
     /// </summary>
-    public class ContractDto
+    public class ContractDto : IDto
     {
         /// <summary>
         /// Получает идентификатор договора.
         /// </summary>
-        public int Id { get; init; }
+        public int Id { get; set; }
 
         /// <summary>
         /// Получает или задает имя договора.

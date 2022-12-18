@@ -5,7 +5,7 @@ namespace EstimateResolve.DataTransferObjects
     /// <summary>
     /// Представляет класс объекта передачи данных единицы измерения.
     /// </summary>
-    public class UnitOfMeasurementDto
+    public class UnitOfMeasurementDto : IDto
     {
         /// <summary>
         /// Получает идентификатор единицы измерения.

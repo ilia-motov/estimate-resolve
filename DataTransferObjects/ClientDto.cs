@@ -5,7 +5,7 @@ namespace EstimateResolve.DataTransferObjects
     /// <summary>
     /// Представляет класс объекта передачи данных заказчика.
     /// </summary>
-    public class ClientDto
+    public class ClientDto : IDto
     {
         /// <summary>
         /// Получает идентификатор заказчика.

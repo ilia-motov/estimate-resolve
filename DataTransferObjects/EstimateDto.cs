@@ -5,12 +5,12 @@ namespace EstimateResolve.DataTransferObjects
     /// <summary>
     /// Представляет класс объекта передачи данных сметы.
     /// </summary>
-    public class EstimateDto
+    public class EstimateDto : IDto
     {
         /// <summary>
         /// Получает или задает идентификатор сметы.
         /// </summary>
-        public int Id { get; init; }
+        public int Id { get; set; }
 
         /// <summary>
         /// Получает или задает имя номера сметы.

@@ -6,7 +6,7 @@ namespace EstimateResolve.DataTransferObjects
     /// <summary>
     /// Представляет объект передачи данных, который содержит информацию о разбиении на страницы и элементы.
     /// </summary>
-    public class ParginatedListDto<T> where T : class
+    public class ParginatedListDto<T> where T : IDto
     {
         /// <summary>
         /// Получает или задает общее количество элементов в списке.

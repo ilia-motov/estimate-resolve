@@ -52,20 +52,7 @@
             <MudTextField @bind-Value="@context.Name" Required />
         </MudTd>
         <MudTd DataLabel="@nameof(ConstructionObjectDto.Client)">
-            <MudAutocomplete T="ClientDto"
-                             Label="Клиент"
-                             @bind-Value="context.Client"
-                             SearchFunc="@SearchClient"
-                             ToStringFunc="@(с => с == null ? null : с.Name)"
-                             ShowProgressIndicator="true"
-                             ProgressIndicatorColor="Color.Default">
-                <NoItemsTemplate>
-                    <MudText Align="Align.Center" Class="px-4 py-1">
-                        Ничего не найдено
-                        <MudButton Class="mb-16" Variant="Variant.Filled" Color="Color.Primary">Создать</MudButton>
-                    </MudText>
-                </NoItemsTemplate>
-            </MudAutocomplete>
+            <Autocomplete @bind-Value="@context.Client" Label="Клиенты" />
         </MudTd>
     </RowEditingTemplate>
     <NoRecordsContent>
