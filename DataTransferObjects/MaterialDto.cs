@@ -5,7 +5,7 @@ namespace EstimateResolve.DataTransferObjects
     /// <summary>
     /// Представляет класс объекта передачи данных материала.
     /// </summary>
-    public class MaterialDto
+    public class MaterialDto : IDto
     {
         /// <summary>
         /// Получает идентификатор материала.

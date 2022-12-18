@@ -1,0 +1,29 @@
+﻿<MudDialog>
+    <DialogContent>
+        <MudTextField T="string" @bind-Value="_name" Label="Наименование"></MudTextField>
+        <Autocomplete @bind-Value="_client" Label="Клиенты" />
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Отмена</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit">Сохранить</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    private string _name;
+    private ClientDto _client;
+
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    [Inject]
+    public IController<ConstructionObjectDto> Controller { get; set; }
+
+    private async Task Submit()
+    {
+        await Controller.Create(new ConstructionObjectDto { Name = _name, Client = _client });
+        MudDialog.Close(DialogResult.Ok(true));
+    }
+
+    private void Cancel() => MudDialog.Cancel();
+}
+

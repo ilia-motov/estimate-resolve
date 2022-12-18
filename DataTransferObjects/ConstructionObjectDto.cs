@@ -5,7 +5,7 @@ namespace EstimateResolve.DataTransferObjects
     /// <summary>
     /// Представляет класс объекта передачи данных объекта строительства.
     /// </summary>
-    public class ConstructionObjectDto
+    public class ConstructionObjectDto : IDto
     {
         /// <summary>
         /// Получает идентификатор объекта строительства.

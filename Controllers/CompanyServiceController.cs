@@ -28,7 +28,26 @@ namespace EstimateResolve.Controllers
         }
 
         [HttpGet("[action]")]
-        public Task<List<CompanyServiceDto>> Autocomplete(string searchString) => throw new NotImplementedException();
+        public async Task<List<CompanyServiceDto>> Autocomplete(string searchString)
+        {
+            var specification = new Specification<CompanyService>
+            {
+                Conditions = new List<Expression<Func<CompanyService, bool>>>
+                {
+                    x => string.IsNullOrWhiteSpace(searchString)
+                    || x.Id.ToString().Contains(searchString.Trim())
+                    || x.Name.Trim().ToLower().Contains(searchString.Trim().ToLower())
+                },
+                Take = 10,
+                OrderByDynamic = (nameof(CompanyService.Name), SortDirection.Ascending.ToString())
+            };
+
+            return await _repository.GetListAsync(specification, x => new CompanyServiceDto
+            {
+                Id = x.Id,
+                Name = x.Name,
+            });
+        }
 
         /// <summary>
         /// Создает указанного <paramref name="companyService"/> в системе,

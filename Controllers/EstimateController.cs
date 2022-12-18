@@ -30,7 +30,26 @@ namespace EstimateResolve.Controllers
         }
 
         [HttpGet("[action]")]
-        public Task<List<EstimateDto>> Autocomplete(string searchString) => throw new NotImplementedException();
+        public async  Task<List<EstimateDto>> Autocomplete(string searchString)
+        {
+            var specification = new Specification<Estimate>
+            {
+                Conditions = new List<Expression<Func<Estimate, bool>>>
+                {
+                    x => string.IsNullOrWhiteSpace(searchString)
+                    || x.Id.ToString().Contains(searchString.Trim())
+                    || x.Name.Trim().ToLower().Contains(searchString.Trim().ToLower())
+                },
+                Take = 10,
+                OrderByDynamic = (nameof(Estimate.Name), SortDirection.Ascending.ToString())
+            };
+
+            return await _repository.GetListAsync(specification, x => new EstimateDto
+            {
+                Id = x.Id,
+                Name = x.Name,
+            });
+        }
 
         /// <summary>
         /// Создает указанного <paramref name="estimateDto"/> в системе,
