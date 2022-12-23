@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EstimateResolve.DataAccess.EntityTypeConfigurations
 {
-    public class CompanyServiceEntityTypeConfiguration : IEntityTypeConfiguration<CompanyService>
+    public class CompanyServiceTypeConfiguration : IEntityTypeConfiguration<CompanyService>
     {
         public void Configure(EntityTypeBuilder<CompanyService> builder)
         {

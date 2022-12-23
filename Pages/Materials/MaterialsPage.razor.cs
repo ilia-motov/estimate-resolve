@@ -72,7 +72,7 @@ namespace EstimateResolve.Pages.Materials
                 return;
 
             var closeOnEscapeKey = new DialogOptions() { CloseOnEscapeKey = true };
-            var dialogResult = await DialogService.Show<DeleteDataDialog>("Удалить", closeOnEscapeKey).Result;
+            var dialogResult = await DialogService.Show<DeleteDialog>("Удалить", closeOnEscapeKey).Result;
 
             if (dialogResult.Cancelled)
                 return;

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EstimateResolve.DataAccess.EntityTypeConfigurations
 {
-    public class MaterialEntityTypeConfiguration : IEntityTypeConfiguration<Material>
+    public class MaterialTypeConfiguration : IEntityTypeConfiguration<Material>
     {
         public void Configure(EntityTypeBuilder<Material> builder)
         {

@@ -4,7 +4,7 @@ using EstimateResolve.Entities;
 
 namespace EstimateResolve.DataAccess.EntityTypeConfigurations
 {
-    public class ClientEntityTypeConfiguration : IEntityTypeConfiguration<Client>
+    public class ClientTypeConfiguration : IEntityTypeConfiguration<Client>
     {
         public void Configure(EntityTypeBuilder<Client> builder)
         {
