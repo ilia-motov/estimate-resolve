@@ -11,7 +11,7 @@ namespace EstimateResolve.Controllers
     {
         Task<List<T>> Autocomplete(string searchString);
 
-        Task Create(T entity);
+        Task Create(T dto);
 
         Task<ParginatedListDto<T>> ReadAll(
             string searchString = "",

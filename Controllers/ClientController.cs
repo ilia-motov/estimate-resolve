@@ -3,6 +3,7 @@ using EstimateResolve.DataTransferObjects;
 using EstimateResolve.Entities;
 using EstimateResolve.Pages;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MudBlazor;
 using TanvirArjel.EFCore.GenericRepository;
 
@@ -97,7 +98,7 @@ namespace EstimateResolve.Controllers
             };
 
             if (sortLabel != null)
-                specification.OrderByDynamic = (sortLabel, sortDirection.ToString());
+                specification.OrderByDynamic = (sortLabel, sortDirection == SortDirection.Ascending ? "Asc" : "Desc");
 
             var paginatedList = await _repository.GetListAsync(specification, x => new ClientDto
             {
@@ -152,7 +153,17 @@ namespace EstimateResolve.Controllers
         [HttpDelete]
         public async Task Delete(int id)
         {
-            var client = await _repository.GetByIdAsync<Client>(id);
+            var client = await _repository.GetByIdAsync<Client>(id, c => c
+                .Include(x => x.ConstructionObjects)
+                .Include(x => x.Estimates));
+
+            if (client is null)
+                throw new InvalidOperationException($"Клиент {id} не найден");
+
+            if ((client.ConstructionObjects != null && client.ConstructionObjects.Any())
+                || (client.Estimates != null && client.Estimates.Any()))
+                throw new InvalidOperationException($"Невозможно удалить клиента: '{client.Name}'!  Он используется в системе!");
+
             _repository.Remove(client);
             await _repository.SaveChangesAsync();
         }

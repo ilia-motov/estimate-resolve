@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EstimateResolve.DataAccess.EntityTypeConfigurations
 {
-    public class ConstructionObjectEntityTypeConfiguration : IEntityTypeConfiguration<ConstructionObject>
+    public class ConstructionObjectTypeConfiguration : IEntityTypeConfiguration<ConstructionObject>
     {
         public void Configure(EntityTypeBuilder<ConstructionObject> builder)
         {
@@ -15,21 +15,21 @@ namespace EstimateResolve.DataAccess.EntityTypeConfigurations
             builder
                 .HasOne(x => x.Client)
                 .WithMany(x => x.ConstructionObjects)
-                .HasForeignKey(x => x.Id);
+                .HasForeignKey(x => x.Id)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder
                 .HasMany(x => x.Estimates)
                 .WithOne()
                 .HasForeignKey(x => x.Id)
-                .IsRequired()
-                .OnDelete(DeleteBehavior.Cascade);
+                .IsRequired();
 
             builder
                 .HasMany(x => x.Contracts)
                 .WithOne()
                 .HasForeignKey(x => x.Id)
-                .IsRequired()
-                .OnDelete(DeleteBehavior.Cascade);
+                .IsRequired();
         }
     }
 }

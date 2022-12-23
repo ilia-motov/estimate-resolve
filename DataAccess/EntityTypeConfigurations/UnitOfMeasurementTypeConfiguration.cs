@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EstimateResolve.DataAccess.EntityTypeConfigurations
 {
-    public class UnitOfMeasurementEntityTypeConfiguration : IEntityTypeConfiguration<UnitOfMeasurement>
+    public class UnitOfMeasurementTypeConfiguration : IEntityTypeConfiguration<UnitOfMeasurement>
     {
         public void Configure(EntityTypeBuilder<UnitOfMeasurement> builder)
         {
@@ -20,4 +20,3 @@ namespace EstimateResolve.DataAccess.EntityTypeConfigurations
         }
     }
 }
-

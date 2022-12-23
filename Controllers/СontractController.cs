@@ -92,6 +92,9 @@ namespace EstimateResolve.Controllers
                 PageSize = pageSize
             };
 
+            if (sortLabel != null)
+                specification.OrderByDynamic = (sortLabel, sortDirection == SortDirection.Ascending ? "Asc" : "Desc");
+
             var paginatedList = await _repository.GetListAsync(specification, x => new ContractDto
             {
                 Id = x.Id,

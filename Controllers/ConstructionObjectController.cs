@@ -100,7 +100,7 @@ namespace EstimateResolve.Controllers
             };
 
             if (sortLabel != null)
-                specification.OrderByDynamic = (sortLabel, sortDirection.ToString());
+                specification.OrderByDynamic = (sortLabel, sortDirection == SortDirection.Ascending ? "Asc" : "Desc");
 
             var paginatedList = await _repository.GetListAsync(specification, x => new ConstructionObjectDto
             {

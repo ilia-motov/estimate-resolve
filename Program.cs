@@ -2,13 +2,11 @@ using System.Reflection;
 using EstimateResolve.Controllers;
 using EstimateResolve.DataAccess;
 using EstimateResolve.DataTransferObjects;
-using Microsoft.OpenApi.Models;
+using EstimateResolve.Services;
 using MudBlazor.Services;
 using TanvirArjel.EFCore.GenericRepository;
 
 var builder = WebApplication.CreateBuilder(args);
-var configuration = builder.Configuration;
-
 
 // Add services to the container.
 builder.Services.AddDbContext<EstimateResolveDbContext>();
@@ -27,13 +25,65 @@ builder.Services.AddSwaggerGen(options =>
     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
 
+builder.Services.AddSingleton<IExceptionInterceptorService, ExceptionInterceptorService>();
+
 builder.Services.AddScoped<IDataSeedingService, DataSeedingService>();
-builder.Services.AddScoped<IController<ClientDto>, ClientController>();
-builder.Services.AddScoped<IController<UnitOfMeasurementDto>, UnitOfMeasurementController>();
-builder.Services.AddScoped<IController<MaterialDto>, MaterialController>();
-builder.Services.AddScoped<IController<ConstructionObjectDto>, ConstructionObjectController>();
 
+builder.Services.AddScoped<IController<ClientDto>>(serviceProvider => {
+    var exceptionInterceptorService = serviceProvider.GetRequiredService<IExceptionInterceptorService>();
+    var repository = serviceProvider.GetRequiredService<IRepository>();
+    var controller = new ClientController(repository);
 
+    return new ControllerWrapper<ClientDto>(controller, exceptionInterceptorService);
+});
+
+builder.Services.AddScoped<IController<CompanyServiceDto>>(serviceProvider => {
+    var exceptionInterceptorService = serviceProvider.GetRequiredService<IExceptionInterceptorService>();
+    var repository = serviceProvider.GetRequiredService<IRepository>();
+    var controller = new CompanyServiceController(repository);
+
+    return new ControllerWrapper<CompanyServiceDto>(controller, exceptionInterceptorService);
+});
+
+builder.Services.AddScoped<IController<ConstructionObjectDto>>(serviceProvider => {
+    var exceptionInterceptorService = serviceProvider.GetRequiredService<IExceptionInterceptorService>();
+    var repository = serviceProvider.GetRequiredService<IRepository>();
+    var controller = new ConstructionObjectController(repository);
+
+    return new ControllerWrapper<ConstructionObjectDto>(controller, exceptionInterceptorService);
+});
+
+builder.Services.AddScoped<IController<EstimateDto>>(serviceProvider => {
+    var exceptionInterceptorService = serviceProvider.GetRequiredService<IExceptionInterceptorService>();
+    var repository = serviceProvider.GetRequiredService<IRepository>();
+    var controller = new EstimateController(repository);
+
+    return new ControllerWrapper<EstimateDto>(controller, exceptionInterceptorService);
+});
+
+builder.Services.AddScoped<IController<MaterialDto>>(serviceProvider => {
+    var exceptionInterceptorService = serviceProvider.GetRequiredService<IExceptionInterceptorService>();
+    var repository = serviceProvider.GetRequiredService<IRepository>();
+    var controller = new MaterialController(repository);
+
+    return new ControllerWrapper<MaterialDto>(controller, exceptionInterceptorService);
+});
+
+builder.Services.AddScoped<IController<UnitOfMeasurementDto>>(serviceProvider => {
+    var exceptionInterceptorService = serviceProvider.GetRequiredService<IExceptionInterceptorService>();
+    var repository = serviceProvider.GetRequiredService<IRepository>();
+    var controller = new UnitOfMeasurementController(repository);
+
+    return new ControllerWrapper<UnitOfMeasurementDto>(controller, exceptionInterceptorService);
+});
+
+builder.Services.AddScoped<IController<ContractDto>>(serviceProvider => {
+    var exceptionInterceptorService = serviceProvider.GetRequiredService<IExceptionInterceptorService>();
+    var repository = serviceProvider.GetRequiredService<IRepository>();
+    var controller = new ÑontractController(repository);
+
+    return new ControllerWrapper<ContractDto>(controller, exceptionInterceptorService);
+});
 
 var app = builder.Build();
 
