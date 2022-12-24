@@ -2,6 +2,7 @@ using System.Reflection;
 using EstimateResolve.Controllers;
 using EstimateResolve.DataAccess;
 using EstimateResolve.DataTransferObjects;
+using EstimateResolve.Pages.Clients.Components;
 using EstimateResolve.Services;
 using MudBlazor.Services;
 using TanvirArjel.EFCore.GenericRepository;
@@ -27,6 +28,7 @@ builder.Services.AddSwaggerGen(options =>
 
 builder.Services.AddSingleton<IExceptionInterceptorService, ExceptionInterceptorService>();
 
+builder.Services.AddScoped<ICreateDialogService, CreateDialogService>();
 builder.Services.AddScoped<IDataSeedingService, DataSeedingService>();
 
 builder.Services.AddScoped<IController<ClientDto>>(serviceProvider => {

@@ -58,7 +58,7 @@ namespace EstimateResolve.Controllers
         /// <param name="estimateDto">смета для создания.</param>
         /// <returns>Объект <see cref="Task"/>, представляющий асинхронную операцию.</returns>
         [HttpPut]
-        public async Task Create(EstimateDto estimateDto)
+        public async Task<int> Create(EstimateDto estimateDto)
         {
             var estimate = new Estimate
             {
@@ -98,6 +98,8 @@ namespace EstimateResolve.Controllers
             _repository.Add(estimate);
 
             await _repository.SaveChangesAsync();
+
+            return estimate.Id;
         }
 
         /// <summary>

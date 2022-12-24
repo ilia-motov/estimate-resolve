@@ -1,7 +1,6 @@
 ﻿using System.Linq.Expressions;
 using EstimateResolve.DataTransferObjects;
 using EstimateResolve.Entities;
-using EstimateResolve.Pages;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MudBlazor;
@@ -57,7 +56,7 @@ namespace EstimateResolve.Controllers
         /// <param name="client">Заказчик для создания.</param>
         /// <returns>Объект <see cref="Task"/>, представляющий асинхронную операцию.</returns>
         [HttpPut]
-        public async Task Create(ClientDto clientDto)
+        public async Task<int> Create(ClientDto clientDto)
         {
             var client = new Client
             {
@@ -67,6 +66,8 @@ namespace EstimateResolve.Controllers
 
             _repository.Add(client);
             await _repository.SaveChangesAsync();
+
+            return client.Id;
         }
 
         /// <summary>

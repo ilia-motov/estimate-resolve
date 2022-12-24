@@ -1,7 +1,7 @@
 ﻿<MudDialog>
     <DialogContent>
         <MudTextField T="string" @bind-Value="_name" Label="Наименование"></MudTextField>
-        <Autocomplete @bind-Value="_client" Label="Клиенты" />
+        <Autocomplete T="ClientDto" @bind-Value="_client" Label="Клиенты" />
     </DialogContent>
     <DialogActions>
         <MudButton OnClick="Cancel">Отмена</MudButton>
@@ -20,10 +20,13 @@
 
     private async Task Submit()
     {
-        await Controller.Create(new ConstructionObjectDto { Name = _name, Client = _client });
-        MudDialog.Close(DialogResult.Ok(true));
+
+        var constructionObject = new ConstructionObjectDto { Name = _name, Client = _client };
+
+        constructionObject.Id = await Controller.Create(constructionObject);
+
+        MudDialog.Close(DialogResult.Ok(constructionObject));
     }
 
     private void Cancel() => MudDialog.Cancel();
 }
-

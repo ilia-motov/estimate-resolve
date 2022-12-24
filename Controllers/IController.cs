@@ -7,11 +7,11 @@ namespace EstimateResolve.Controllers
     /// <summary>
     /// Представляет абстракцию контроллера.
     /// </summary>
-    public interface IController<T> where T : IDto
+    public interface IController<T> where T : class, IDto
     {
         Task<List<T>> Autocomplete(string searchString);
 
-        Task Create(T dto);
+        Task<int> Create(T dto);
 
         Task<ParginatedListDto<T>> ReadAll(
             string searchString = "",

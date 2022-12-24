@@ -55,7 +55,7 @@ namespace EstimateResolve.Controllers
         /// <param name="unitOfMeasurement">единица измерения для создания.</param>
         /// <returns>Объект <see cref="Task"/>, представляющий асинхронную операцию.</returns>
         [HttpPut]
-        public async Task Create(UnitOfMeasurementDto unitOfMeasurementDto)
+        public async Task<int> Create(UnitOfMeasurementDto unitOfMeasurementDto)
         {
             var unitOfMeasurement = new UnitOfMeasurement
             {
@@ -65,6 +65,8 @@ namespace EstimateResolve.Controllers
 
             _repository.Add(unitOfMeasurement);
             await _repository.SaveChangesAsync();
+
+            return unitOfMeasurement.Id;
         }
 
         /// <summary>
