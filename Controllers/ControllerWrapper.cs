@@ -5,7 +5,7 @@ using MudBlazor;
 
 namespace EstimateResolve.Controllers
 {
-    public class ControllerWrapper<T> : IController<T> where T : IDto
+    public class ControllerWrapper<T> : IController<T> where T : class, IDto
     {
         private readonly IController<T> _controller;
         private readonly IExceptionInterceptorService _exceptionInterceptorService;
@@ -18,7 +18,7 @@ namespace EstimateResolve.Controllers
 
         public Task<List<T>> Autocomplete(string searchString) => TryExecute(() => _controller.Autocomplete(searchString));
 
-        public Task Create(T entity) => TryExecute(() => _controller.Create(entity));
+        public Task<int> Create(T entity) => TryExecute(() => _controller.Create(entity));
 
         public Task<ParginatedListDto<T>> ReadAll(
             string searchString = "",

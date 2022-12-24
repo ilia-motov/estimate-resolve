@@ -1,6 +1,6 @@
 ﻿<MudDialog>
     <DialogContent>
-        <MudTextField T="string" @bind-Value="_name" Label="Наименование"></MudTextField>
+        <MudTextField T="string" @bind-Value="Name" Label="Наименование"></MudTextField>
     </DialogContent>
     <DialogActions>
         <MudButton OnClick="Cancel">Отмена</MudButton>
@@ -9,17 +9,21 @@
 </MudDialog>
 
 @code {
-    private string _name;
-
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    [Parameter] public string Name { get; set; }
 
     [Inject]
     public IController<ClientDto> Controller { get; set; }
 
     private async Task Submit()
     {
-        await Controller.Create(new ClientDto { Name = _name });
-        MudDialog.Close(DialogResult.Ok(true));
+
+        var client = new ClientDto { Name = Name };
+
+        client.Id = await Controller.Create(client);
+
+        MudDialog.Close(DialogResult.Ok(client));
     }
 
     private void Cancel() => MudDialog.Cancel();

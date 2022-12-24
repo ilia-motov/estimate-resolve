@@ -55,7 +55,7 @@ namespace EstimateResolve.Controllers
         /// <param name="material">материал для создания.</param>
         /// <returns>Объект <see cref="Task"/>, представляющий асинхронную операцию.</returns>
         [HttpPut]
-        public async Task Create(MaterialDto materialDto)
+        public async Task<int> Create(MaterialDto materialDto)
         {
             var material = new Material
             {
@@ -67,6 +67,8 @@ namespace EstimateResolve.Controllers
 
             _repository.Add(material);
             await _repository.SaveChangesAsync();
+
+            return material.Id;
         }
 
         /// <summary>

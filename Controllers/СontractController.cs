@@ -56,7 +56,7 @@ namespace EstimateResolve.Controllers
         /// <param name="contract">договор для создания.</param>
         /// <returns>Объект <see cref="Task"/>, представляющий асинхронную операцию.</returns>
         [HttpPut]
-        public async Task Create(ContractDto contractDto)
+        public async Task<int> Create(ContractDto contractDto)
         {
             var contract = new Contract
             {
@@ -68,6 +68,8 @@ namespace EstimateResolve.Controllers
 
             _repository.Add(contract);
             await _repository.SaveChangesAsync();
+
+            return contract.Id;
         }
 
         /// <summary>

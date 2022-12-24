@@ -57,7 +57,7 @@ namespace EstimateResolve.Controllers
         /// <param name="сonstructionObject">Объект строительства для создания.</param>
         /// <returns>Объект <see cref="Task"/>, представляющий асинхронную операцию.</returns>
         [HttpPut]
-        public async Task Create(ConstructionObjectDto сonstructionObjectDto)
+        public async Task<int> Create(ConstructionObjectDto сonstructionObjectDto)
         {
             var сonstructionObject = new ConstructionObject
             {
@@ -68,6 +68,8 @@ namespace EstimateResolve.Controllers
 
             _repository.Add(сonstructionObject);
             await _repository.SaveChangesAsync();
+
+            return сonstructionObject.Id;
         }
 
         /// <summary>

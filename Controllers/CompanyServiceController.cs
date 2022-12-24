@@ -56,7 +56,7 @@ namespace EstimateResolve.Controllers
         /// <param name="companyService">услуга компании для создания.</param>
         /// <returns>Объект <see cref="Task"/>, представляющий асинхронную операцию.</returns>
         [HttpPut]
-        public async Task Create(CompanyServiceDto companyServiceDto)
+        public async Task<int> Create(CompanyServiceDto companyServiceDto)
         {
             var companyService = new CompanyService
             {
@@ -68,6 +68,8 @@ namespace EstimateResolve.Controllers
 
             _repository.Add(companyService);
             await _repository.SaveChangesAsync();
+
+            return companyService.Id;
         }
 
         /// <summary>

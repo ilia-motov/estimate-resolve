@@ -52,7 +52,7 @@
             <MudTextField @bind-Value="@context.Name" Required />
         </MudTd>
         <MudTd DataLabel="@nameof(ConstructionObjectDto.Client)">
-            <Autocomplete @bind-Value="@context.Client" Label="Клиенты" />
+            <Autocomplete T="ClientDto" @bind-Value="@context.Client" Label="Клиенты" />
         </MudTd>
     </RowEditingTemplate>
     <NoRecordsContent>
